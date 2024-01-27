@@ -8,7 +8,7 @@ Copy number variants (CNVs) and single nucleotide polymorphisms (SNPs) co-exist 
 
 ## **SYNOPSIS**
 
-**CNVstat** $$**–spec_file** specification file$$
+**CNVstat** [**–spec_file** specification file]
 
 ## **OPTIONS**
 
@@ -25,7 +25,6 @@ All the input files are **required**. The current version does\
 
 |                                                     |
 |-----------------------------------------------------|
-| Example of a specification file                     |
 | PHENOTYPE_FILE = ./posted/example_phenotype.dat     |
 | RAW_INTENSITY_DAT_FILE = ./posted/example_raw.dat   |
 | RAW_INTENSITY_INFO_FILE = ./posted/example_raw.info |
@@ -44,9 +43,11 @@ All the input files are **required**. The current version does\
 | EFFECT = K L sex sex\*K sex\*L                      |
 | TEST = K L sex\*K sex\*L                            |
 
+Example of a specification file
+
 The specification file describes parameters that detemine the desired analysis. All the parameters are **optional** and the **default** values are listed below. The syntax follows
 
-> KEYWORD = value1 $$value2 …$$
+> KEYWORD = value1 [value2 …]
 
 with spaces around “=”. An empty value, i.e., “KEYWORD =”, is **not allowed**. Arbitrary empty lines are allowed.
 
@@ -116,7 +117,6 @@ with spaces around “=”. An empty value, i.e., “KEYWORD =”, is **not allo
 
 |              |                             |
 |--------------|-----------------------------|
-|              | Example of a phenotype file |
 |           CC |  sex                        |
 |            1 |   2                         |
 |            1 |   1                         |
@@ -126,18 +126,21 @@ with spaces around “=”. An empty value, i.e., “KEYWORD =”, is **not allo
 |            0 |   2                         |
 |            … |   …                         |
 
+Example of a phenotype file 
+
 The phenotype file provides information on the phenotype and covariates of the study subjects in a tabular (row-column) format. Each row contains space- or tab-delimited data specific to an individual. Variable names **must** be specified in the first line. The disease variable **must** be listed first and can be followed by an arbitrary number of covariates (or no covariate). In a case-control study, the disease variable **must** be coded 0/1 to represent unaffected/affected.
 
 ### **Data file of raw intensities**
 
 |                                                            |
 |------------------------------------------------------------|
-| Example of a data file of raw intensities                  |
 | `0.2563 -0.1172 -0.0032  0.5917  0.0460 -0.2151  0.1422 …` |
 | `0.4865  0.0341  0.9929  1.0000  0.4787  1.0000  1.0000 …` |
 | `0.1170 -0.3365  0.2157  0.7017  0.3450 -0.2712  0.2081 …` |
 | `0.4388  0.9548  0.0000  0.0000  0.5589  0.0000  0.0000 …` |
 | `…       …       …       …       …       …       …   …`    |
+
+Example of a data file of raw intensities                  
 
 The data file of raw intensities contains raw intensities in a tabular format without any header. Each colomn represents an individual. When `PROBE_TYPE` = SNP, each probe contributes two rows in the order of LRR and BAF if `ARRAY_TYPE` = I or A and B allele intensities if `ARRAY_TYPE` = A. When `PROBE_TYPE` = CN, each probe contributes one row of the intensity for the total CN. The probes are not necessisarily ordered by physical positions on the chromosomes.
 
@@ -145,12 +148,13 @@ The data file of raw intensities contains raw intensities in a tabular format wi
 
 |                                                   |
 |---------------------------------------------------|
-| Example of an information file of raw intensities |
 | `SNP_A-8363651      13      68146300      0.7143` |
 | `SNP_A-8363651      13      68146300      0.7143` |
 | `SNP_A-8510099      13      68150996      0.2667` |
 | `SNP_A-8510099      13      68150996      0.2667` |
 | `…            …          …            …`          |
+
+Example of an information file of raw intensities
 
 The information file of raw intensities provides information on the probes in a tabular format without any header. The columns are ordered as *probe id*, *chromosome*, *physical position* and *population frequency of the B allele (pfb)*. The rows precisely correspond to the rows of the data file of raw intensities; in particular, a SNP probe contributes two rows while a CN probe contributes one.
 
@@ -158,10 +162,11 @@ The information file of raw intensities provides information on the probes in a 
 
 |                                               |
 |-----------------------------------------------|
-| Example of a data file of called CNs          |
 | `2     2     2     2     2     2     2     …` |
 | `1     1     2     2     2     2     2     …` |
 | `…     …     …     …     …     …     …     …` |
+
+Example of a data file of called CNs          
 
 The data file of called CNs contains inferred total copy numbers on the study subjects, which can be obtained by a calling algorithm such as PennCNV, to be used for constructing initial values of the parameters of the implemented methods. This file is in a tabular format without any header, with columns and rows corresponding to individuals and probes in the same order as in the data file of raw intensities. Note that a SNP probe only contributes one row. The current version is focused on common CNVs and CNV deletions; that is, only the loci with CN deletions as the possible variants and with the frequency of any deletion exceeding 5% among the study subjects, as estimated by the called CNs, are retained in the input files.
 
@@ -169,10 +174,11 @@ The data file of called CNs contains inferred total copy numbers on the study su
 
 |                                                |
 |------------------------------------------------|
-| Example of an information file of called CNs   |
 | `SNP_A-8363651     13     68146300     0.7143` |
 | `SNP_A-8510099     13     68150996     0.2667` |
 | `…             …         …           …`        |
+
+Example of an information file of called CNs
 
 The information file of called CNs **must** follow the same format and the same order as the information file of raw intensities, except that a SNP contributes one row.
 
@@ -182,12 +188,13 @@ The information file of called CNs **must** follow the same format and the same 
 
 |                                                                |
 |----------------------------------------------------------------|
-| Example of a result file                                       |
 | `Chr   Position     CN/SNP-id      pfb   Test-Stat   p-Value`  |
 | `---  ---------  ---------------  -----  ---------   --------` |
 | `13   68146300  SNP_A-8363651    0.714     0.2309   8.91e-01`  |
 | `13   68150996  SNP_A-8510099    0.267     0.2739   8.72e-01`  |
 | `…       …            …            …         …         …`      |
+
+: Example of a result file
 
 `p-Value` is obtained by comparing `Test-Stat` to a Chi-Square distribution with degrees of freedom the number of effects in the joint test.
 
