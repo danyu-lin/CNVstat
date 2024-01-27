@@ -4,16 +4,16 @@
 
 Copy number variants (CNVs) and single nucleotide polymorphisms (SNPs) co-exist throughout the human genome and jointly contribute to phenotypic variations. Thus, it is desirable to consider both types of variants, as characterized by allele-specific copy numbers (ASCNs), in association studies of complex human diseases. Current SNP genotyping technologies capture the CNV and SNP information simultaneously via fuorescent intensity measurements. The common practice of calling ASCNs from the intensity measurements and then using the ASCN calls in downstream association analysis has important limitations. First, the association tests are prone to false-positive findings when differential measurement errors between cases and controls arise from differences in DNA quality or handling. Second, the uncertainties in the ASCN calls are ignored.
 
-**CNVstat** is a command-line program written in C for the statistical association analysis of CNVs and SNPs. **CNVstat** allows the user to estimate or test the effects of CNVs and SNPs by maximizing the (observed-data) likelihood that properly accounts for differential measurement errors and calling uncertainties. It is versatile in several aspects: (1) it provides the integrated analysis of CNVs and SNPs as well as the analysis of total CNVs; (2) it can accommodate both Affymetrix and Illumina data, as well as all platforms that assay CNVs quantitatively, such as array CGH; (3) it accounts for the case-control sampling, differential measurement errors and calling uncertainties; (4) it can be readily extended to other study designs and traits; (5) it formulates the effects of CNVs and SNPs on the phenotype through flexible regression models, which can accommodate various genetic mechanisms and gene-environment interactions; and (6) it allows genetic and environmental variables to be correlated. The program is fast and scalable to genomewide association scans. For example, it took about 2 hrs on a 64-bit, 3.0-GHz Intel Xeon machine to perform the analysis on chromosome 1 of the schizophrenia data (Hu et al. Submitted for publication). We are working intensely to improve the capabilities of **CNVstat**, so please check back frequently for updates.
+**CNVstat** is a command-line program written in C for the statistical association analysis of CNVs and SNPs. **CNVstat** allows the user to estimate or test the effects of CNVs and SNPs by maximizing the (observed-data) likelihood that properly accounts for differential measurement errors and calling uncertainties. It is versatile in several aspects: (1) it provides the integrated analysis of CNVs and SNPs as well as the analysis of total CNVs; (2) it can accommodate both Affymetrix and Illumina data, as well as all platforms that assay CNVs quantitatively, such as array CGH; (3) it accounts for the case-control sampling, differential measurement errors and calling uncertainties; (4) it can be readily extended to other study designs and traits; (5) it formulates the effects of CNVs and SNPs on the phenotype through flexible regression models, which can accommodate various genetic mechanisms and gene-environment interactions; and (6) it allows genetic and environmental variables to be correlated. The program is fast and scalable to genomewide association scans. For example, it took about 2 hrs on a 64-bit, 3.0-GHz Intel Xeon machine to perform the analysis on chromosome 1 of the schizophrenia data (Hu et al. Submitted for publication). We are working intensely to improve the capabilities of **CNVstat**, so please check back frequently for updates.
 
 ## **SYNOPSIS**
 
-**CNVstat** \[**–spec_file** specification file\]
+**CNVstat** $$**–spec_file** specification file$$
 
 ## **OPTIONS**
 
 | Option         | Parameter            | Default               | Description                    |
-|:---------------|:---------------------|:----------------------|:-------------------------------|
+|:----------------|:----------------|:----------------|:-------------------|
 | **–spec_file** | {specification file} | *`specification.txt`* | Specify the specification file |
 
 ## **INPUT FILES**
@@ -46,7 +46,7 @@ All the input files are **required**. The current version does\
 
 The specification file describes parameters that detemine the desired analysis. All the parameters are **optional** and the **default** values are listed below. The syntax follows
 
-> KEYWORD = value1 \[value2 …\]
+> KEYWORD = value1 $$value2 …$$
 
 with spaces around “=”. An empty value, i.e., “KEYWORD =”, is **not allowed**. Arbitrary empty lines are allowed.
 
@@ -81,8 +81,8 @@ with spaces around “=”. An empty value, i.e., “KEYWORD =”, is **not allo
 
 `ARRAY_TYPE =`{I/A/T}
 
-> Specify the array type among ‘I‘, ‘A‘ and ‘T‘, corresponding to Illumina arrays, Affymetrix arrays, and other arrays that assay CNVs quantitatively, such as array CGH. Specifically, Illumina arrays may contain both SNP and CN probes; a SNP probe generates a measurement for the total copy number, Log R Ratio (LRR), and a measurement for the allelic contrast, B Allele Frequency (BAF), while a CN probe generates only one meausrement for the total copy number. Affymetrix arrays may also contain both SNP and CN probes; a SNP probe generates two measurements pertaining to A and B allele intensities while a CN probe generates one meausrement for the total copy number. ‘T‘ refers to arrays with all probes generating measurements for the total copy numbers.\
-> **Default** is ‘I‘.
+> Specify the array type among ’I‘, ’A‘ and ’T‘, corresponding to Illumina arrays, Affymetrix arrays, and other arrays that assay CNVs quantitatively, such as array CGH. Specifically, Illumina arrays may contain both SNP and CN probes; a SNP probe generates a measurement for the total copy number, Log R Ratio (LRR), and a measurement for the allelic contrast, B Allele Frequency (BAF), while a CN probe generates only one meausrement for the total copy number. Affymetrix arrays may also contain both SNP and CN probes; a SNP probe generates two measurements pertaining to A and B allele intensities while a CN probe generates one meausrement for the total copy number. ’T‘ refers to arrays with all probes generating measurements for the total copy numbers.\
+> **Default** is ’I‘.
 
 `PROBE_TYPE =`{SNP/CN}
 
@@ -94,7 +94,7 @@ with spaces around “=”. An empty value, i.e., “KEYWORD =”, is **not allo
 
 `DIFFERENTIAL_MEASUREMENT_ERRORS =`{1/0}
 
-> Turn on the switch by ‘1‘ to allow differential measurement errors; turn it off by ‘0‘. **Default** is “1“.
+> Turn on the switch by ’1‘ to allow differential measurement errors; turn it off by ’0‘. **Default** is “1“.
 
 `CATEGORICAL =`{covariate names in the phenotype file}
 
@@ -106,11 +106,11 @@ with spaces around “=”. An empty value, i.e., “KEYWORD =”, is **not allo
 
 `EFFECT =`{main genetic and environmental effects and interactions}
 
-> Specify the main genetic and environmental effects and interactions in the disease risk model. In particular, the effect of the total copy number is denoted by ‘K‘ and the effect of the B allele copy number is denoted by ‘L‘. Interactions are denoted by ‘\*’ with no space on either side. The interation ‘K\*L‘ or ‘L\*K‘ is **not allowed**. Effect ‘L‘ is **not allowed** when `PROBE_TYPE` = CN. **Default** is ‘K‘.
+> Specify the main genetic and environmental effects and interactions in the disease risk model. In particular, the effect of the total copy number is denoted by ‘K‘ and the effect of the B allele copy number is denoted by ‘L‘. Interactions are denoted by ‘\*’ with no space on either side. The interation ’K\*L‘ or ’L\*K‘ is **not allowed**. Effect ’L‘ is **not allowed** when `PROBE_TYPE` = CN. **Default** is ’K‘.
 
 `TEST =`{main genetic and environmental effects and interactions}
 
-> Specify the main genetic and environmental effects and interactions that are included in the joint test. These effects should be a subset of those specified in `EFFECT`. **Default** is ‘K‘.
+> Specify the main genetic and environmental effects and interactions that are included in the joint test. These effects should be a subset of those specified in `EFFECT`. **Default** is ’K‘.
 
 ### **Phenotype file**
 
@@ -195,7 +195,7 @@ The information file of called CNs **must** follow the same format and the same 
 
 Enter the command
 
-> \$ CNVstat --spec_file ./example_specification.txt
+> \$ CNVstat –spec_file ./example_specification.txt
 
 to obtain the results in “example_results.out“.
 
@@ -205,11 +205,11 @@ Hu, Y. J., Lin, D. Y. Sun, W., and Zeng, D. “A Likelihood-Based Framework for 
 
 ## **DOWNLOAD**
 
-#### **CNVstat for x86-based, 64-bit Linux \[updated July 5, 2012\]**
+#### **CNVstat for x86-based, 64-bit Linux** $$updated July 5, 2012$$
 
 executable (zip archive) **»** [CNVstat-1.0-linux-64.zip](http://dlin.web.unc.edu/wp-content/uploads/sites/1568/2012/07/CNVstat-1.0-linux-64.zip)
 
-#### **Example files \[updated July 5, 2012\]**
+#### **Example files** $$updated July 5, 2012$$
 
 zip archive **»** [CNVstat-1.0-example.zip](http://dlin.web.unc.edu/wp-content/uploads/sites/1568/2012/07/CNVstat-1.0-example.zip)
 
